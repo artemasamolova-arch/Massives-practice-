@@ -1,6 +1,6 @@
 #include <iostream>
 #include <Windows.h>
-using namespace std;
+
 int main()
 {
 	SetConsoleCP(CP_UTF8);
@@ -29,7 +29,7 @@ int main()
 	{
 		std::cout << "Некорректный ввод. Повторите попытку\n";
 		std::cout << "Выберите вид самолета(1 или 2): ";
-		std::cin >> plain;
+		std::cin >> plane;
 	}
 	std::cout << "Введите расстояние от A до B(км): ";
 	std::cin >> AB;
@@ -100,10 +100,69 @@ int main()
 	}
 	double fuelAB = fuelPerKm * AB;
 	double fuelBC = fuelPerKm * BC;
-
+	
 	if (plane == 1)
 	{
-		if 
+		if (fuelAB > fuel[p])
+		{
+			std::cout << "Топлива не хватит,чтобы долететь от A до B";
+			return 0;
+		}
+		double fuelLeft = fuel[p] - fuelAB;
+		if (fuelBC > fuel[p])
+		{
+			std::cout << "Топлива не хватит,чтобы долететь от B до C";
+			return 0;
+		}
+		double refuel = fuelBC - fuelLeft;
+		if (refuel < 0)
+		{
+			refuel = 0;
+		}
+		if (refuel > fuel[p] - fuelLeft)
+		{
+			std::cout << "Невозможно выполнить перелет";
+			return 0;
+		}
+		std::cout << "Минимальное количество дозаправки: " << refuel << " литров" << std::endl;
+	}
+	else
+	{
+		double extraFuel = 100;
+		double fuelABLeft = fuelAB;
+		if (extraFuel <= fuelABLeft)
+		{
+			extraFuel -= fuelABLeft;
+		}
+		else
+		{
+			fuelABLeft -= extraFuel;
+			extraFuel = 0;
+			fuel[p] - fuelABLeft;
+		}
+		if (fuel[p] < 0)
+		{
+			std::cout << "Топлива не хватит,чтобы долететь от A до B";
+			return 0;
+		}
+		double fuelLeft2 = fuel[p] + extraFuel;
+		double refuel2 = fuelBC - fuelLeft2;
+		if (refuel2 < 0)
+		{
+			refuel2 = 0;
+		}
+		if (fuelBC > fuel[p] + extraFuel)
+		{
+			std::cout << "Топлива не хватит,чтобы долететь от B до C";
+			return 0;
+		}
+		if (refuel2 > fuel[p])
+		{
+			std::cout << "Невозможно выполнить перелет";
+			return 0;
+		}
+		std::cout << "Минимальное количество дозаправки: " << refuel2 << "литров" << std::endl;
+		
 	}
 
 
